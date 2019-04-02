@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Usuario implements Serializable{
 
@@ -20,8 +22,10 @@ private Integer id;
 private String nome;
 private String usuario;
 private String senha;
+@JsonIgnore
 @ManyToMany(mappedBy="usuarios")
 private List<Rifa> rifas = new ArrayList<>();
+@JsonIgnore
 @OneToMany(mappedBy="usuarioVencedor")
 private List<Sorteio> sorteio = new ArrayList<>();
 

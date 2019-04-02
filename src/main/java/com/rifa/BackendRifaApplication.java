@@ -2,7 +2,6 @@ package com.rifa;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -33,9 +32,9 @@ private UsuarioRepository repositoryUsuario;
 	@Override
 	public void run(String... args) throws Exception {
 	
-		Rifa rifa1 = new Rifa(null, "AK-LINHAS-VERMELHAS", EstadoRifa.PENDENTE, null);
-		Rifa rifa2 = new Rifa(null, "AWP-COLORIDA", EstadoRifa.PENDENTE, null);
-		Rifa rifa3 = new Rifa(null, "GLOCK-VENON", EstadoRifa.PENDENTE, null);
+		Rifa rifa1 = new Rifa(null, "AK-LINHAS-VERMELHAS", EstadoRifa.PENDENTE, 10);
+		Rifa rifa2 = new Rifa(null, "AWP-COLORIDA", EstadoRifa.PENDENTE, 20);
+		Rifa rifa3 = new Rifa(null, "GLOCK-VENON", EstadoRifa.PENDENTE, 30);
 		
 		Usuario usuario1 = new Usuario(null, "Matheus Campelo", "Matheus","Campelo");
 		Usuario usuario2 = new Usuario(null, "Joaquim Parrolho", "Joaquim","Parrolho");
@@ -45,9 +44,11 @@ private UsuarioRepository repositoryUsuario;
 		
 		Sorteio sorteio1 = new Sorteio(null, usuario1, rifa1, sdf.parse("02/04/2019 02:10"));
 		usuario1.getRifas().addAll(Arrays.asList(rifa1, rifa3));
+		usuario1.getRifas().addAll(Arrays.asList(rifa1));
 		usuario2.getRifas().addAll(Arrays.asList(rifa1));
 		usuario3.getRifas().addAll(Arrays.asList(rifa1));
-		rifa1.getUsuarios().addAll(Arrays.asList(usuario1,usuario2,usuario3));
+		rifa1.getUsuarios().addAll(Arrays.asList(usuario1,usuario2,usuario3,usuario1));
+		
 		repositoryUsuario.saveAll(Arrays.asList(usuario1,usuario2,usuario3));
 		repositoryRifa.saveAll(Arrays.asList(rifa1,rifa2,rifa3));
 		repositorySorteio.saveAll(Arrays.asList(sorteio1));

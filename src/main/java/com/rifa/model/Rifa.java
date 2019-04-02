@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rifa.model.enums.EstadoRifa;
 @Entity
 public class Rifa implements Serializable{
@@ -25,12 +26,14 @@ public class Rifa implements Serializable{
 private Integer id;
 private String nome;
 private Integer estado;
+private Integer quantidade;
 @ManyToMany
 @JoinTable(name="RIFA_USUARIO",
 joinColumns=@JoinColumn(name="rifa_id"),
 inverseJoinColumns=@JoinColumn(name="usuario_id"))
 private List<Usuario> usuarios = new ArrayList<>();
 @OneToOne(mappedBy="rifa")
+@JsonIgnore
 private Sorteio sorteio;
 
 
@@ -39,12 +42,12 @@ public Rifa() {
 }
 
 
-public Rifa(Integer id, String nome, EstadoRifa estado, Sorteio sorteio) {
+public Rifa(Integer id, String nome, EstadoRifa estado, Integer qtd) {
 	super();
 	this.id=id;
 	this.nome = nome;
 	this.estado = estado.getCod();
-	this.setSorteio(sorteio);
+	this.quantidade = qtd;
 }
 
 
@@ -91,6 +94,15 @@ public void setSorteio(Sorteio sorteio) {
 	this.sorteio = sorteio;
 }
 
+public Integer getQuantidade() {
+	return quantidade;
+}
+
+
+public void setQuantidade(Integer quantidade) {
+	this.quantidade = quantidade;
+}
+
 @Override
 public int hashCode() {
 	final int prime = 31;
@@ -116,6 +128,7 @@ public boolean equals(Object obj) {
 		return false;
 	return true;
 }
+
 
 
 
