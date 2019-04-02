@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rifa.model.enums.EstadoRifa;
@@ -27,10 +31,11 @@ private Integer id;
 private String nome;
 private Integer estado;
 private Integer quantidade;
-@ManyToMany
+@ManyToMany(fetch = FetchType.EAGER)
 @JoinTable(name="RIFA_USUARIO",
 joinColumns=@JoinColumn(name="rifa_id"),
 inverseJoinColumns=@JoinColumn(name="usuario_id"))
+@Fetch(FetchMode.SUBSELECT)
 private List<Usuario> usuarios = new ArrayList<>();
 @OneToOne(mappedBy="rifa")
 @JsonIgnore

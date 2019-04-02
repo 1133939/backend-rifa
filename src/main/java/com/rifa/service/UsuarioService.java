@@ -17,6 +17,7 @@ public class UsuarioService {
 @Autowired
 private UsuarioRepository repository;
 
+
 public Usuario insert(Usuario usuario) {
 	if(usuario.getSenha()==null || usuario.getUsuario()==null) {
 		throw new IllegalAccessError("Usuário não cadastrado devidamente, nome de usuário ou senha vazios");

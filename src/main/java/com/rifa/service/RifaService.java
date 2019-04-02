@@ -32,21 +32,18 @@ public Rifa find(Integer id) {
 	Optional<Rifa> rifas = repository.findById(id);
 	return rifas.orElse(null);
 }
+public List<Rifa> findByName(Rifa rifa){
+	return repository.findByNome(rifa.getNome());
+}
 public Rifa insert(Rifa rifa) {
 rifa.setId(null);
 return repository.save(rifa);
 }
 public Rifa update(Rifa rifa) throws ParseException {
-Rifa obj = repository.save(rifa);
-if(obj.getUsuarios().isEmpty()) {
-	return obj;
-}else 
-if(this.rifaFull(obj.getId())) {
-	rifa.setEstado(EstadoRifa.CONCLUIDA);
-		   repository.save(rifa);
-}
-
-return obj;
+if(this.rifaFull(rifa.getId())) {
+rifa.setEstado(EstadoRifa.CONCLUIDA);
+}	  
+	return repository.save(rifa);
 
 }
 public void sortRifa(Rifa rifa) throws ParseException {
@@ -58,9 +55,12 @@ public void sortRifa(Rifa rifa) throws ParseException {
 	repositorySorteio.save(sorteioRifa);	
 }
 public boolean rifaFull(Integer id) throws ParseException {
+	if(id == null) {
+		throw new IllegalAccessError("id Nulo");
+	}
 	Rifa rifa = this.find(id);
-	List<Usuario> usuarios = rifa.getUsuarios();
-	if(rifa.getQuantidade().equals(usuarios.size()) && rifa.getEstado() == EstadoRifa.PENDENTE) {
+	List<Usuario> usuarios = rifa.getUsuarios();	
+	if(rifa.getQuantidade().equals(usuarios.size()+1) && rifa.getEstado()==EstadoRifa.PENDENTE) {
 		this.sortRifa(rifa);
 		return true;
 	}	else {

@@ -15,6 +15,7 @@ import com.rifa.model.enums.EstadoRifa;
 import com.rifa.repositories.RifaRepository;
 import com.rifa.repositories.SorteioRepository;
 import com.rifa.repositories.UsuarioRepository;
+import com.rifa.service.RifaService;
 import com.rifa.service.UsuarioService;
 
 @SpringBootApplication
@@ -27,6 +28,8 @@ private SorteioRepository repositorySorteio;
 private UsuarioRepository repositoryUsuario;
 @Autowired	
 private UsuarioService serviceUser;
+@Autowired	
+private RifaService serviceRifa;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendRifaApplication.class, args);
@@ -35,7 +38,7 @@ private UsuarioService serviceUser;
 	@Override
 	public void run(String... args) throws Exception {
 	
-		Rifa rifa1 = new Rifa(null, "AK-LINHAS-VERMELHAS", EstadoRifa.PENDENTE, 10);
+		Rifa rifa1 = new Rifa(null, "AK-LINHAS-VERMELHAS", EstadoRifa.PENDENTE, 4);
 		Rifa rifa2 = new Rifa(null, "AWP-COLORIDA", EstadoRifa.PENDENTE, 20);
 		Rifa rifa3 = new Rifa(null, "GLOCK-VENON", EstadoRifa.PENDENTE, 30);
 		
@@ -47,17 +50,23 @@ private UsuarioService serviceUser;
 		
 		Sorteio sorteio1 = new Sorteio(null, usuario1, rifa1, sdf.parse("02/04/2019 02:10"));
 		usuario1.getRifas().addAll(Arrays.asList(rifa1, rifa3));
-		usuario1.getRifas().addAll(Arrays.asList(rifa1));
 		usuario2.getRifas().addAll(Arrays.asList(rifa1));
 		usuario3.getRifas().addAll(Arrays.asList(rifa1));
-		rifa1.getUsuarios().addAll(Arrays.asList(usuario1,usuario2,usuario3,usuario1));
+		rifa1.getUsuarios().addAll(Arrays.asList(usuario1,usuario2,usuario3));
+		usuario1 = serviceUser.insert(usuario1);
+		repositoryUsuario.saveAll(Arrays.asList(usuario2,usuario3));	
+		rifa1 =serviceRifa.insert(rifa1);
 		
-		serviceUser.insert(usuario1);
-		Usuario newInstanceOfUsuario1 = new Usuario(null, "Matheus Campelo", "Matheus","Campelo");
-		serviceUser.autentica(newInstanceOfUsuario1);
-		repositoryUsuario.saveAll(Arrays.asList(usuario2,usuario3));
-		repositoryRifa.saveAll(Arrays.asList(rifa1,rifa2,rifa3));
-		repositorySorteio.saveAll(Arrays.asList(sorteio1));
+		usuario1.getRifas().addAll(Arrays.asList(rifa1));
+		rifa1.getUsuarios().addAll((Arrays.asList(usuario1)));
+		serviceUser.update(usuario1);
+		serviceRifa.update(rifa1);
+		
+	//	Usuario newInstanceOfUsuario1 = new Usuario(null, "Matheus Campelo", "Matheus","Campelo");
+	//	serviceUser.autentica(newInstanceOfUsuario1);
+	//	repositoryUsuario.saveAll(Arrays.asList(usuario2,usuario3));
+//		repositoryRifa.saveAll(Arrays.asList(rifa1,rifa2,rifa3));
+//		repositorySorteio.saveAll(Arrays.asList(sorteio1));
 		
 		
 		
