@@ -32,29 +32,42 @@ public Rifa find(Integer id) {
 	Optional<Rifa> rifas = repository.findById(id);
 	return rifas.orElse(null);
 }
-public List<Rifa> findByName(Rifa rifa){
-	return repository.findByNome(rifa.getNome());
+public List<Rifa> findByName(String nomeRifa){
+	return repository.findByNome(nomeRifa);
 }
+
+
 public Rifa insert(Rifa rifa) {
 rifa.setId(null);
 return repository.save(rifa);
 }
-public Rifa update(Rifa rifa) throws ParseException {
+
+
+public Rifa update(Rifa rifa){
 if(this.rifaFull(rifa.getId())) {
 rifa.setEstado(EstadoRifa.CONCLUIDA);
 }	  
 	return repository.save(rifa);
 
 }
-public void sortRifa(Rifa rifa) throws ParseException {
+
+public void delete(Integer id) {
+	repository.deleteById(id);
+}
+
+private void sortRifa(Rifa rifa) {
 	Random sorteio = new Random();
 	Integer sorteado = sorteio.nextInt(rifa.getQuantidade());
 	Usuario usuarioSorteado = rifa.getUsuarios().get(sorteado);
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	try {
 	Sorteio sorteioRifa = new Sorteio(null, usuarioSorteado, rifa, sdf.parse("02/04/2019 02:10"));
 	repositorySorteio.save(sorteioRifa);	
+	}catch(ParseException e) {
+		e.getMessage();
+	}
 }
-public boolean rifaFull(Integer id) throws ParseException {
+private boolean rifaFull(Integer id) {
 	if(id == null) {
 		throw new IllegalAccessError("id Nulo");
 	}

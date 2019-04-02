@@ -27,6 +27,7 @@ public Usuario insert(Usuario usuario) {
 	usuario.setSenha(criptoPass);
 	return repository.save(usuario);
 }
+
 public Usuario autentica(Usuario usuario) {
 	if(usuario.getSenha()==null || usuario.getUsuario()==null) {
 		throw new IllegalAccessError("Usuário não cadastrado devidamente, nome de usuário ou senha vazios");
@@ -40,16 +41,23 @@ public Usuario autentica(Usuario usuario) {
 	}
 		throw new IllegalAccessError("Usuário não existe ou senha incorreta");
 }
+
+
 public Usuario update(Usuario usuario) {
 	return repository.save(usuario);
 }
+
+
 public List<Usuario> findAll(){
 	return repository.findAll();
 }
+
 public Usuario find(Integer id){
 	Optional<Usuario> usuario = repository.findById(id);
 	return usuario.orElse(null);
 }
+
+
 
 public String get_SHA_512_SecurePassword(String passwordToHash, String   salt){
 	
