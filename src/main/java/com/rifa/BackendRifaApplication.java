@@ -15,6 +15,7 @@ import com.rifa.model.enums.EstadoRifa;
 import com.rifa.repositories.RifaRepository;
 import com.rifa.repositories.SorteioRepository;
 import com.rifa.repositories.UsuarioRepository;
+import com.rifa.service.UsuarioService;
 
 @SpringBootApplication
 public class BackendRifaApplication implements CommandLineRunner {
@@ -24,6 +25,8 @@ private RifaRepository repositoryRifa;
 private SorteioRepository repositorySorteio;
 @Autowired	
 private UsuarioRepository repositoryUsuario;
+@Autowired	
+private UsuarioService serviceUser;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendRifaApplication.class, args);
@@ -49,7 +52,10 @@ private UsuarioRepository repositoryUsuario;
 		usuario3.getRifas().addAll(Arrays.asList(rifa1));
 		rifa1.getUsuarios().addAll(Arrays.asList(usuario1,usuario2,usuario3,usuario1));
 		
-		repositoryUsuario.saveAll(Arrays.asList(usuario1,usuario2,usuario3));
+		serviceUser.insert(usuario1);
+		Usuario newInstanceOfUsuario1 = new Usuario(null, "Matheus Campelo", "Matheus","Campelo");
+		serviceUser.autentica(newInstanceOfUsuario1);
+		repositoryUsuario.saveAll(Arrays.asList(usuario2,usuario3));
 		repositoryRifa.saveAll(Arrays.asList(rifa1,rifa2,rifa3));
 		repositorySorteio.saveAll(Arrays.asList(sorteio1));
 		
