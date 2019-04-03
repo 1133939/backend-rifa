@@ -46,6 +46,9 @@ public Usuario autentica(Usuario usuario) {
 public Usuario update(Usuario usuario) {
 	return repository.save(usuario);
 }
+public void delete(Integer id) {
+	repository.deleteById(id);
+}
 
 
 public List<Usuario> findAll(){

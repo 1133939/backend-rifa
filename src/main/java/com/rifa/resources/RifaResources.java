@@ -28,10 +28,15 @@ private RifaService service;
 		List<Rifa> lista = service.findAll();
 		return ResponseEntity.ok().body(lista);
 	}
-	@RequestMapping(method=RequestMethod.GET, value="/{nome}")
+	@RequestMapping(method=RequestMethod.GET, value="/buscaNome/{nome}")
 	public ResponseEntity<?> findByName(@PathVariable String nome){
 		List<Rifa> lista = service.findByName(nome);
 		return ResponseEntity.ok().body(lista);
+	}
+	@RequestMapping(method=RequestMethod.GET, value="/{id}")
+	public ResponseEntity<?> find(@PathVariable Integer id){
+		Rifa rifa = service.find(id);
+		return ResponseEntity.ok().body(rifa);
 	}
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody Rifa rifa){
@@ -46,7 +51,7 @@ private RifaService service;
 		return ResponseEntity.noContent().build();
 	}
 	@RequestMapping(method=RequestMethod.DELETE, value="/{id}")
-	public ResponseEntity<Void> update(@PathVariable Integer id){
+	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}

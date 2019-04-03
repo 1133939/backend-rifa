@@ -47,6 +47,7 @@ public Rifa update(Rifa rifa){
 if(this.rifaFull(rifa.getId())) {
 rifa.setEstado(EstadoRifa.CONCLUIDA);
 }	  
+	System.out.println("ASDASD"+rifa.getId());
 	return repository.save(rifa);
 
 }
