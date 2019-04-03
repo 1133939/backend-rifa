@@ -44,7 +44,24 @@ public Usuario autentica(Usuario usuario) {
 
 
 public Usuario update(Usuario usuario) {
+	usuario = updateUsuario(usuario);
 	return repository.save(usuario);
+}
+private Usuario updateUsuario(Usuario usuario) {
+	Usuario newUsuario = find(usuario.getId());
+	if(usuario.getNome()!=null) {
+		newUsuario.setNome(usuario.getNome());	
+	}if(usuario.getSenha()!=null) {
+		String senha = get_SHA_512_SecurePassword(usuario.getSenha(), newUsuario.getUsuario());
+		newUsuario.setSenha(senha);	
+	}if(usuario.getRifas()!=null) {
+		newUsuario.setRifas(usuario.getRifas());	
+	}if(usuario.getUsuario()!=null) {
+		newUsuario.setUsuario(usuario.getUsuario());	
+	}if(usuario.getSorteio()!=null) {
+		newUsuario.setSorteio(usuario.getSorteio());	
+	}
+	return newUsuario;
 }
 public void delete(Integer id) {
 	repository.deleteById(id);
@@ -62,7 +79,7 @@ public Usuario find(Integer id){
 
 
 
-public String get_SHA_512_SecurePassword(String passwordToHash, String   salt){
+private String get_SHA_512_SecurePassword(String passwordToHash, String   salt){
 	
 String generatedPassword = null;
     try {
