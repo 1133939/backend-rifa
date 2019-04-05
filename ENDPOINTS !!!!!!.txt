@@ -1,0 +1,25 @@
+ENDPOINTS backend-rifa
+
+
+GET
+localhost:8080/sorteios - findAll sorteios
+localhost:8080/rifas  - findAll rifas
+localhost:8080/rifas/1 - find Rifa de id 1
+localhost:8080/usuarios  -  findAll usuarios
+localhost:8080/usuarios/1 - find Usuario de id 1
+
+POST 
+localhost:8080/rifas - Passando "nome" e "quantidade" da rifa String e Integer ***
+localhost:8080/sorteios - Não existe post para sorteio, o sistema faz um POST automaticamente quando as rifa esgotarem
+localhost:8080/usuarios - Passando "nome" "usuario" e "senha" String, String, String - Criptografia de senha inserida no sistema ***
+
+PUT
+localhost:8080/rifas/1 - aqui se atualiza tudo da rifa desde adicionar mais um usuario na lista até uma simples mudança de nome
+A MUDANÇA DE USUÁRIO É FEITA PASSANDO UM ARRAY DE USUARIOS PASSANDO O ID DO MESMO { usuarios[ "id" : 1]}
+localhost:8080/usuarios/1 - aqui se atualiza dados pessoais do usuario. nome, usuario, senha. ***
+
+LEGENDA:
+*** falta testar e fazer ajustes para um melhor funcionamento
+
+
+
