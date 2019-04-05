@@ -38,7 +38,7 @@ private RifaService serviceRifa;
 	@Override
 	public void run(String... args) throws Exception {
 	
-		Rifa rifa1 = new Rifa(null, "AK-LINHAS-VERMELHAS", EstadoRifa.PENDENTE, 4);
+		Rifa rifa1 = new Rifa(null, "AK-LINHAS-VERMELHAS", EstadoRifa.PENDENTE, 6);
 		Rifa rifa2 = new Rifa(null, "AWP-COLORIDA", EstadoRifa.PENDENTE, 20);
 		Rifa rifa3 = new Rifa(null, "GLOCK-VENON", EstadoRifa.PENDENTE, 30);
 		
@@ -55,12 +55,13 @@ private RifaService serviceRifa;
 		rifa1.getUsuarios().addAll(Arrays.asList(usuario1,usuario2,usuario3));
 		usuario1 = serviceUser.insert(usuario1);
 		repositoryUsuario.saveAll(Arrays.asList(usuario2,usuario3));	
-		rifa1 =serviceRifa.insert(rifa1);
-		
-		usuario1.getRifas().addAll(Arrays.asList(rifa1));
-		rifa1.getUsuarios().addAll((Arrays.asList(usuario1)));
-		serviceUser.update(usuario1);
-		serviceRifa.update(rifa1);
+		serviceRifa.insert(rifa1);
+//		Rifa rifaNew = new Rifa();
+//		rifaNew.setId(1);
+//	usuario1.getRifas().addAll(Arrays.asList(rifaNew));
+//	rifaNew.getUsuarios().addAll((Arrays.asList(usuario1)));
+//	serviceUser.update(usuario1);
+//	serviceRifa.update(rifaNew);
 		
 	//	Usuario newInstanceOfUsuario1 = new Usuario(null, "Matheus Campelo", "Matheus","Campelo");
 	//	serviceUser.autentica(newInstanceOfUsuario1);

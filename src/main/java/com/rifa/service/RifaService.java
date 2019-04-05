@@ -3,6 +3,7 @@ package com.rifa.service;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -44,14 +45,35 @@ return repository.save(rifa);
 
 
 public Rifa update(Rifa rifa){
+Rifa newRifa = updateRifa(rifa);
 if(this.rifaFull(rifa.getId())) {
-rifa.setEstado(EstadoRifa.CONCLUIDA);
-}	  
-	System.out.println("ASDASD"+rifa.getId());
-	return repository.save(rifa);
+newRifa.setEstado(EstadoRifa.CONCLUIDA);
+}
+	return repository.save(newRifa);
 
 }
-
+private Rifa updateRifa(Rifa rifa) {
+	Rifa newRifa = find(rifa.getId());
+	if(newRifa.getEstado()==EstadoRifa.PENDENTE) {
+	List<Usuario> list = newRifa.getUsuarios();
+	list.addAll(rifa.getUsuarios());
+	newRifa.setUsuarios(list);
+	}
+	if(rifa.getNome()!=null) {
+	newRifa.setNome(rifa.getNome());	
+	}
+	if(rifa.getEstado()!=null) {
+		newRifa.setEstado(rifa.getEstado());		
+	}
+	if(rifa.getQuantidade()!=null) {
+		newRifa.setQuantidade(rifa.getQuantidade());		
+	}
+	if(rifa.getSorteio()!=null) {
+		newRifa.setSorteio(rifa.getSorteio());		
+	}
+	return newRifa;
+	
+}
 public void delete(Integer id) {
 	repository.deleteById(id);
 }
@@ -73,8 +95,8 @@ private boolean rifaFull(Integer id) {
 		throw new IllegalAccessError("id Nulo");
 	}
 	Rifa rifa = this.find(id);
-	List<Usuario> usuarios = rifa.getUsuarios();	
-	if(rifa.getQuantidade().equals(usuarios.size()+1) && rifa.getEstado()==EstadoRifa.PENDENTE) {
+	List<Usuario> usuarios = rifa.getUsuarios();
+	if(rifa.getQuantidade().equals(usuarios.size()) && rifa.getEstado()==EstadoRifa.PENDENTE) {
 		this.sortRifa(rifa);
 		return true;
 	}	else {
