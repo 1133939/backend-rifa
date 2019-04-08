@@ -2,6 +2,7 @@ package com.rifa.resources;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ private RifaService service;
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<?> findAll(){
 		List<Rifa> lista = service.findAll();
-		List <RifaDTO> listDTO = service.fromDTO(lista);
+		List <RifaDTO> listDTO = lista.stream().map(rifas -> new RifaDTO(rifas)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
 	@RequestMapping(method=RequestMethod.GET, value="/buscaNome/{nome}")

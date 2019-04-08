@@ -107,20 +107,4 @@ private boolean rifaFull(Integer id) {
 		return false;
 	}
 }
-public List<RifaDTO> fromDTO(List<Rifa> rifas){
-	List<RifaDTO> listaDTO = new ArrayList<>();
-	for(Rifa item : rifas) {
-		RifaDTO aux = new RifaDTO();
-		aux.setId(item.getId());
-		aux.setNome(item.getNome());
-		for(Usuario usuarios : item.getUsuarios()) {
-		UsuarioDTO auxUser = new UsuarioDTO();
-		auxUser.setId(usuarios.getId());
-		auxUser.setNome(usuarios.getNome());
-		aux.setUsuarios(Arrays.asList(auxUser));
-		}
-		listaDTO.add(aux);
-	}
-	return listaDTO;
-}
 }
