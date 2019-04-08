@@ -3,6 +3,7 @@ package com.rifa.model;
 public class UsuarioDTO {
 private Integer id;
 private String nome;
+private RifaDTO rifa;
 
 public UsuarioDTO(Usuario usuario) {
 id = usuario.getId();
