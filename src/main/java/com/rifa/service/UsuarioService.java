@@ -38,7 +38,7 @@ public Usuario autentica(Usuario usuario) {
 	if(user != null) {
 		System.out.println("Logando Usuário...");
 		return user;
-	}
+	}else
 		throw new IllegalAccessError("Usuário não existe ou senha incorreta");
 }
 
@@ -51,7 +51,7 @@ private Usuario updateUsuario(Usuario usuario) {
 	Usuario newUsuario = find(usuario.getId());
 	if(usuario.getNome()!=null) {
 		newUsuario.setNome(usuario.getNome());	
-	}if(usuario.getSenha()!=null) {
+	}if(usuario.getSenha()!=null && usuario.getSenha().length()<40) {
 		String senha = get_SHA_512_SecurePassword(usuario.getSenha(), newUsuario.getUsuario());
 		newUsuario.setSenha(senha);	
 	}if(usuario.getRifas()!=null) {

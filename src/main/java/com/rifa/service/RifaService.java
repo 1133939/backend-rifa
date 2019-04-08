@@ -3,6 +3,7 @@ package com.rifa.service;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -12,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rifa.model.Rifa;
+import com.rifa.model.RifaDTO;
 import com.rifa.model.Sorteio;
 import com.rifa.model.Usuario;
+import com.rifa.model.UsuarioDTO;
 import com.rifa.model.enums.EstadoRifa;
 import com.rifa.repositories.RifaRepository;
 import com.rifa.repositories.SorteioRepository;
@@ -40,6 +43,7 @@ public List<Rifa> findByName(String nomeRifa){
 
 public Rifa insert(Rifa rifa) {
 rifa.setId(null);
+rifa.setEstado(EstadoRifa.PENDENTE);
 return repository.save(rifa);
 }
 
@@ -102,5 +106,21 @@ private boolean rifaFull(Integer id) {
 	}	else {
 		return false;
 	}
+}
+public List<RifaDTO> fromDTO(List<Rifa> rifas){
+	List<RifaDTO> listaDTO = new ArrayList<>();
+	for(Rifa item : rifas) {
+		RifaDTO aux = new RifaDTO();
+		aux.setId(item.getId());
+		aux.setNome(item.getNome());
+		for(Usuario usuarios : item.getUsuarios()) {
+		UsuarioDTO auxUser = new UsuarioDTO();
+		auxUser.setId(usuarios.getId());
+		auxUser.setNome(usuarios.getNome());
+		aux.setUsuarios(Arrays.asList(auxUser));
+		}
+		listaDTO.add(aux);
+	}
+	return listaDTO;
 }
 }
