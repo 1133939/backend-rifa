@@ -1,6 +1,7 @@
 package com.rifa.resources;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rifa.model.Rifa;
 import com.rifa.model.RifaDTO;
+import com.rifa.model.Usuario;
 import com.rifa.service.RifaService;
 @CrossOrigin
 @RestController

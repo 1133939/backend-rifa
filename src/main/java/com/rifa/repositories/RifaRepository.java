@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 import com.rifa.model.Rifa;
 @Repository
 public interface RifaRepository extends JpaRepository<Rifa, Integer>{
-	List<Rifa>findByNome(String nome);
+	List<Rifa>findByNomeContainingIgnoreCase(String nome);
 }

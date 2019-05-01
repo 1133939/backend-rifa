@@ -28,6 +28,8 @@ public class RifaService implements Serializable {
 private RifaRepository repository;
 	@Autowired
 private SorteioRepository repositorySorteio;
+	public RifaService() {
+	}
 
 public List<Rifa> findAll() {
 	return repository.findAll();
@@ -37,7 +39,7 @@ public Rifa find(Integer id) {
 	return rifas.orElse(null);
 }
 public List<Rifa> findByName(String nomeRifa){
-	return repository.findByNome(nomeRifa);
+	return repository.findByNomeContainingIgnoreCase(nomeRifa);
 }
 
 
@@ -58,7 +60,7 @@ newRifa.setEstado(EstadoRifa.CONCLUIDA);
 }
 private Rifa updateRifa(Rifa rifa) {
 	Rifa newRifa = find(rifa.getId());
-	if(newRifa.getEstado()==EstadoRifa.PENDENTE) {
+	if(newRifa.getEstado()==EstadoRifa.PENDENTE && !rifa.getUsuarios().isEmpty() || rifa.getUsuarios()==null) {
 	List<Usuario> list = newRifa.getUsuarios();
 	list.addAll(rifa.getUsuarios());
 	newRifa.setUsuarios(list);
@@ -106,5 +108,8 @@ private boolean rifaFull(Integer id) {
 	}	else {
 		return false;
 	}
+}
+public void setRepository(RifaRepository repository) {
+	this.repository=repository;
 }
 }

@@ -41,6 +41,9 @@ public Usuario(Integer id, String nome, String usuario, String senha) {
 	this.usuario = usuario;
 	this.senha = senha;
 }
+public Usuario (Integer id) {
+	this.id=id;
+}
 
 public Integer getId() {
 	return id;
