@@ -9,4 +9,6 @@ import com.rifa.model.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
 	@Transactional(readOnly=true)
 	Usuario findBySenhaAndUsuario(String senha, String usuario);
+	@Transactional(readOnly=true)
+	Usuario findByUsuario(String usuario);
 }

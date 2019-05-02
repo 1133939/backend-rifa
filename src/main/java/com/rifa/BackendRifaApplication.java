@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.rifa.model.Rifa;
 import com.rifa.model.Sorteio;
@@ -20,6 +21,8 @@ import com.rifa.service.UsuarioService;
 
 @SpringBootApplication
 public class BackendRifaApplication implements CommandLineRunner {
+	@Autowired
+	private BCryptPasswordEncoder pe;
 @Autowired	
 private RifaRepository repositoryRifa;
 @Autowired	
@@ -42,9 +45,9 @@ private RifaService serviceRifa;
 		Rifa rifa2 = new Rifa(null, "AWP-COLORIDA", EstadoRifa.PENDENTE, 20);
 		Rifa rifa3 = new Rifa(null, "GLOCK-VENON", EstadoRifa.PENDENTE, 30);
 		
-		Usuario usuario1 = new Usuario(null, "Matheus Campelo", "Matheus","Campelo");
-		Usuario usuario2 = new Usuario(null, "Joaquim Parrolho", "Joaquim","Parrolho");
-		Usuario usuario3 = new Usuario(null, "Kilombo Karakata", "Kilombo","Karakata");
+		Usuario usuario1 = new Usuario(null, "Matheus Campelo", "Matheus",pe.encode("Campelo"));
+		Usuario usuario2 = new Usuario(null, "Joaquim Parrolho", "Joaquim",pe.encode("Parrolho"));
+		Usuario usuario3 = new Usuario(null, "Kilombo Karakata", "Kilombo",pe.encode("Karakata"));
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
@@ -62,10 +65,6 @@ private RifaService serviceRifa;
 	rifaNew.getUsuarios().addAll((Arrays.asList(usuario1)));
 	serviceUser.update(usuario1);
 	serviceRifa.update(rifaNew);
-		
-		Usuario newInstanceOfUsuario1 = new Usuario(null, "Matheus Campelo", "Matheus","Campelo");
-	    Usuario usuario1New = serviceUser.autentica(newInstanceOfUsuario1);
-	    System.out.println("Usuario de Id: "+usuario1New.getId());
 	//	repositoryUsuario.saveAll(Arrays.asList(usuario2,usuario3));
 //		repositoryRifa.saveAll(Arrays.asList(rifa1,rifa2,rifa3));
 //		repositorySorteio.saveAll(Arrays.asList(sorteio1));

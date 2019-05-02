@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rifa.model.Usuario;
@@ -16,31 +17,19 @@ import com.rifa.repositories.UsuarioRepository;
 public class UsuarioService {
 @Autowired
 private UsuarioRepository repository;
+@Autowired
+private BCryptPasswordEncoder pe;
 
 
 public Usuario insert(Usuario usuario) {
 	if(usuario.getSenha()==null || usuario.getUsuario()==null) {
 		throw new IllegalAccessError("Usuário não cadastrado devidamente, nome de usuário ou senha vazios");
 	}
+	usuario.setSenha(pe.encode(usuario.getSenha()));
 	usuario.setId(null);
-	String criptoPass = get_SHA_512_SecurePassword(usuario.getSenha(),usuario.getUsuario());	
-	usuario.setSenha(criptoPass);
 	return repository.save(usuario);
 }
 
-public Usuario autentica(Usuario usuario) {
-	if(usuario.getSenha()==null || usuario.getUsuario()==null) {
-		throw new IllegalAccessError("Usuário não cadastrado devidamente, nome de usuário ou senha vazios");
-	}
-	String criptoPass = get_SHA_512_SecurePassword(usuario.getSenha(),usuario.getUsuario());	
-	usuario.setSenha(criptoPass);
-	Usuario user = repository.findBySenhaAndUsuario(usuario.getSenha(), usuario.getUsuario());
-	if(user != null) {
-		System.out.println("Logando Usuário...");
-		return user;
-	}else
-		throw new IllegalAccessError("Usuário não existe ou senha incorreta");
-}
 
 
 public Usuario update(Usuario usuario) {
@@ -49,14 +38,13 @@ public Usuario update(Usuario usuario) {
 }
 private Usuario updateUsuario(Usuario usuario) {
 	Usuario newUsuario = find(usuario.getId());
-	if(usuario.getNome()!=null) {
+	if(usuario.getNome()!=null && usuario.getNome()!="") {
 		newUsuario.setNome(usuario.getNome());	
-	}if(usuario.getSenha()!=null && usuario.getSenha().length()<40) {
-		String senha = get_SHA_512_SecurePassword(usuario.getSenha(), newUsuario.getUsuario());
-		newUsuario.setSenha(senha);	
+	}if(usuario.getSenha()!=null  && usuario.getSenha()!="") {
+		newUsuario.setSenha(usuario.getSenha());	
 	}if(usuario.getRifas()!=null) {
 		newUsuario.setRifas(usuario.getRifas());	
-	}if(usuario.getUsuario()!=null) {
+	}if(usuario.getUsuario()!=null  && usuario.getUsuario()!="") {
 		newUsuario.setUsuario(usuario.getUsuario());	
 	}if(usuario.getSorteio()!=null) {
 		newUsuario.setSorteio(usuario.getSorteio());	
@@ -78,24 +66,8 @@ public Usuario find(Integer id){
 }
 
 
-
-private String get_SHA_512_SecurePassword(String passwordToHash, String   salt){
-	
-String generatedPassword = null;
-    try {
-         MessageDigest md = MessageDigest.getInstance("SHA-512");
-         md.update(salt.getBytes(StandardCharsets.UTF_8));
-         byte[] bytes = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
-         StringBuilder sb = new StringBuilder();
-         for(int i=0; i< bytes.length ;i++){
-            sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-         }
-         generatedPassword = sb.toString();
-        } 
-       catch (NoSuchAlgorithmException e){
-        e.printStackTrace();
-       }
-    return generatedPassword;
+public Usuario findByName(String usuario) {
+	return repository.findByUsuario(usuario);
 }
 
 

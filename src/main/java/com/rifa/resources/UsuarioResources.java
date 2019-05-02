@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rifa.model.Usuario;
@@ -21,16 +22,17 @@ public class UsuarioResources {
 	@Autowired
 	private UsuarioService service;
 	
-	@RequestMapping(method=RequestMethod.GET, value="/login/{login}")
-	public ResponseEntity<?> autenticaUsuario(@RequestBody Usuario usuario, @PathVariable String login)	{
-		usuario = service.autentica(usuario);
-	return ResponseEntity.ok().body(usuario);
-	}
 	@RequestMapping(method=RequestMethod.GET, value="/{id}")
 	public ResponseEntity<?> find(@PathVariable Integer id)	{
 		Usuario usuario = service.find(id);
 	return ResponseEntity.ok().body(usuario);
 	}
+	@RequestMapping(method=RequestMethod.GET, value="/")
+	public ResponseEntity<?> findByName(@RequestParam(value="usuario") String usuario)	{
+		Usuario user = service.findByName(usuario);
+	return ResponseEntity.ok().body(user);
+	}
+	
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<?> findAll()	{
 		List<Usuario> usuario = service.findAll();
