@@ -22,6 +22,7 @@ public class Usuario implements Serializable{
 private Integer id;
 private String nome;
 private String usuario;
+private Integer tickets;
 private String senha;
 @JsonIgnore
 @ManyToMany(mappedBy="usuarios")
@@ -72,7 +73,6 @@ public void setUsuario(String usuario) {
 public String getSenha() {
 	return senha;
 }
-
 public void setSenha(String senha) {
 	this.senha = senha;
 }
@@ -83,6 +83,13 @@ public List<Rifa> getRifas() {
 
 public void setRifas(List<Rifa> rifas) {
 	this.rifas = rifas;
+}
+public Integer getTickets() {
+	return tickets;
+}
+
+public void setTickets(Integer tickets) {
+	this.tickets = tickets;
 }
 public List<Sorteio> getSorteio() {
 	return sorteio;
@@ -116,6 +123,7 @@ public boolean equals(Object obj) {
 		return false;
 	return true;
 }
+
 
 
 

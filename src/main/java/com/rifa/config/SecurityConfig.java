@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.rifa.security.JWTAutheticationFilter;
+import com.rifa.security.JWTAuthorizationFilter;
 import com.rifa.security.JWTUtil;
 @Configuration
 @EnableWebSecurity
@@ -34,6 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			"/h2-console/**",
 	};
 	private static final String[] PUBLIC_MATCHERS_POST = {
+			"/usuarios/**"
+	};
+	private static final String[] PUBLIC_MATCHERS_PUT = {
 			"/usuarios/**"
 	};
 	private static final String[] PUBLIC_MATCHERS_GET = {
@@ -55,6 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers(PUBLIC_MATCHERS).permitAll()
 		.anyRequest().authenticated();
 		http.addFilter(new JWTAutheticationFilter(authenticationManager(), jwtUtil));
+		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 	
@@ -67,8 +72,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Bean
 	  CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
+		configuration.setAllowedMethods(Arrays.asList("POST","GET","PUT","DELETE","OPTIONS"));
 	    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	    source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+	    source.registerCorsConfiguration("/**", configuration);
 	  
 	    return source;
 	  }

@@ -14,6 +14,7 @@ import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.rifa.exceptions.UsuarioSemTicketException;
 import com.rifa.model.Rifa;
 import com.rifa.model.Usuario;
 import com.rifa.model.enums.EstadoRifa;
@@ -49,7 +50,7 @@ public class RifaTeste {
 		});
 	}
 	@Test
-	public void todasRifasVendidas() {
+	public void todasRifasVendidas() throws UsuarioSemTicketException {
 		
 		Rifa rifa = new Rifa(1,"Rifa1",EstadoRifa.PENDENTE,3);
 		Usuario usuario1 = new Usuario(1,"Usuario1","1User","usuario");

@@ -41,8 +41,12 @@ private Usuario updateUsuario(Usuario usuario) {
 	if(usuario.getNome()!=null && usuario.getNome()!="") {
 		newUsuario.setNome(usuario.getNome());	
 	}if(usuario.getSenha()!=null  && usuario.getSenha()!="") {
-		newUsuario.setSenha(usuario.getSenha());	
-	}if(usuario.getRifas()!=null) {
+		newUsuario.setSenha(pe.encode(usuario.getSenha()));	
+	}
+	if(usuario.getTickets()!=null) {
+		newUsuario.setTickets(usuario.getTickets());
+		}
+	if(usuario.getRifas()!=null) {
 		newUsuario.setRifas(usuario.getRifas());	
 	}if(usuario.getUsuario()!=null  && usuario.getUsuario()!="") {
 		newUsuario.setUsuario(usuario.getUsuario());	

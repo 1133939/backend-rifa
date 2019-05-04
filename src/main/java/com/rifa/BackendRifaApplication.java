@@ -45,9 +45,12 @@ private RifaService serviceRifa;
 		Rifa rifa2 = new Rifa(null, "AWP-COLORIDA", EstadoRifa.PENDENTE, 20);
 		Rifa rifa3 = new Rifa(null, "GLOCK-VENON", EstadoRifa.PENDENTE, 30);
 		
-		Usuario usuario1 = new Usuario(null, "Matheus Campelo", "Matheus",pe.encode("Campelo"));
+		Usuario usuario1 = new Usuario(null, "Matheus Campelo", "Matheus","Campelo");
 		Usuario usuario2 = new Usuario(null, "Joaquim Parrolho", "Joaquim",pe.encode("Parrolho"));
 		Usuario usuario3 = new Usuario(null, "Kilombo Karakata", "Kilombo",pe.encode("Karakata"));
+		usuario1.setTickets(5);
+		usuario2.setTickets(5);
+		usuario3.setTickets(5);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		

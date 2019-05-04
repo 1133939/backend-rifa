@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rifa.exceptions.UsuarioSemTicketException;
 import com.rifa.model.Rifa;
 import com.rifa.model.RifaDTO;
 import com.rifa.model.Usuario;
@@ -53,7 +54,12 @@ private RifaService service;
 	@RequestMapping(method=RequestMethod.PUT, value="/{id}")
 	public ResponseEntity<Void> update(@RequestBody Rifa rifa, @PathVariable Integer id){
 		rifa.setId(id);
-		rifa = service.update(rifa);
+		try {
+			rifa = service.update(rifa);
+			
+		} catch (UsuarioSemTicketException e) {
+			e.printStackTrace();
+		}
 		return ResponseEntity.noContent().build();
 	}
 	@RequestMapping(method=RequestMethod.DELETE, value="/{id}")
