@@ -45,6 +45,11 @@ private RifaService service;
 		Rifa rifa = service.find(id);
 		return ResponseEntity.ok().body(rifa);
 	}
+	@RequestMapping(method=RequestMethod.GET, value="/rifasUsuario/{usuario}")
+	public ResponseEntity<?> find(@PathVariable String usuario){
+		List<Rifa> rifa = service.findByUsuario(usuario);
+		return ResponseEntity.ok().body(rifa);
+	}
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody Rifa rifa){
 		rifa = service.insert(rifa);

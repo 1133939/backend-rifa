@@ -40,10 +40,11 @@ public Rifa find(Integer id) {
 public List<Rifa> findByName(String nomeRifa){
 	// 2 = pendente    1 = concluida
 	List<Rifa> rifas =  repository.findByNomeContainingIgnoreCaseAndEstado(nomeRifa, 2);
-	System.out.println("TESETEEEEEEEEEE  "+ rifas);
 	return rifas;
 }
-
+public List<Rifa> findByUsuario(String usuario){
+	return repository.findDistinctRifaByUsuarios_Usuario(usuario);
+}
 
 public Rifa insert(Rifa rifa) {
 rifa.setId(null);

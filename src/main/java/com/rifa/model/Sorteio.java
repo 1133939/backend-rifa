@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Sorteio implements Serializable {
 /**
@@ -26,6 +27,7 @@ private Integer id;
 private Usuario usuarioVencedor;
 @OneToOne
 @JoinColumn(name="rifa_id")
+@JsonIgnore
 private Rifa rifa;
 @JsonFormat(pattern="dd/MM/yyyy HH:mm")
 private Date date;

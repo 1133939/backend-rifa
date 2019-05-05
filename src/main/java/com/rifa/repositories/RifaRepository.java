@@ -9,4 +9,5 @@ import com.rifa.model.Rifa;
 @Repository
 public interface RifaRepository extends JpaRepository<Rifa, Integer>{
 	List<Rifa>findByNomeContainingIgnoreCaseAndEstado(String nome, Integer estado);
+	List<Rifa>findDistinctRifaByUsuarios_Usuario(String nome);
 }

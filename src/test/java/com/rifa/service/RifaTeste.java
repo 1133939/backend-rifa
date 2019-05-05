@@ -2,36 +2,33 @@ package com.rifa.service;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.mockito.Mockito;
+import org.junit.runner.RunWith;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import com.rifa.exceptions.UsuarioSemTicketException;
 import com.rifa.model.Rifa;
-import com.rifa.model.Usuario;
 import com.rifa.model.enums.EstadoRifa;
-import com.rifa.repositories.RifaRepository;
-
+@RunWith(SpringRunner.class)
 @SpringBootTest
 public class RifaTeste {
 	@Autowired
 	private RifaService service = new RifaService();
+	@Autowired
+	private SorteioService serviceSort = new SorteioService();
 	@Spy
 	private RifaService serviceSpy = new RifaService();
 	
 	
 	@Before
 	public void setup() {
-		RifaRepository repository = Mockito.mock(RifaRepository.class);
-		service.setRepository(repository);
+
 	}
 	
 	//TESTE DE INTEGRAÇÃO NO METODO FINDBYNAME
@@ -50,16 +47,12 @@ public class RifaTeste {
 		});
 	}
 	@Test
-	public void todasRifasVendidas() throws UsuarioSemTicketException {
-		
-		Rifa rifa = new Rifa(1,"Rifa1",EstadoRifa.PENDENTE,3);
-		Usuario usuario1 = new Usuario(1,"Usuario1","1User","usuario");
-		Usuario usuario2 = new Usuario(2,"Usuario2","2User","usuario");
-		Usuario usuario3 = new Usuario(3,"Usuario3","3User","usuario");
-		rifa.getUsuarios().addAll(Arrays.asList(usuario1,usuario2,usuario3));		
-		Mockito.when(service.update(rifa)).thenReturn(rifa);
-		Mockito.when(service.update(rifa)).thenReturn(rifa);
-		
-		
+	public void teste_buscaRifaPorUsuario() {
+	List<Rifa> rifas = service.findByUsuario("Joaquim");
+	for(Rifa rifa : rifas) {
+		System.out.printf(rifa.getNome());
+		System.out.println(rifa.getEstado());
+		System.out.println(rifa.getUsuarios().size());
+	}
 	}
 }

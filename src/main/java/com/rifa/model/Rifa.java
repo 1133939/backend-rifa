@@ -39,7 +39,6 @@ inverseJoinColumns=@JoinColumn(name="usuario_id"))
 @Fetch(FetchMode.SUBSELECT)
 private List<Usuario> usuarios = new ArrayList<>();
 @OneToOne(mappedBy="rifa")
-@JsonIgnore
 private Sorteio sorteio;
 
 

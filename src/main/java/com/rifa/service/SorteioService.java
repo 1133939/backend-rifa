@@ -16,5 +16,8 @@ private SorteioRepository repository;
 public List<Sorteio> findAll() {
 	return repository.findAll();
 }
+public List<Sorteio> findSorteiosFromUsuario(String usuario){
+	return repository.findGanhadorSorteio(usuario);
+}
 
 }
